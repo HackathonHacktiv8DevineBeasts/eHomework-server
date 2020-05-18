@@ -2,6 +2,7 @@ const User = require("../models/User");
 const { generateToken } = require('../helpers/jwt');
 const { decrypt, encrypt } = require('../helpers/bcrypt');
 var data;
+
 class UserCtrl {
 
     static async registerStudent(req, res) {
