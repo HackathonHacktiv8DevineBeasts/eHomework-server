@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const app = express();
 const morgan = require('morgan')
-// const port = process.env.PORT || 3000;
+const port = 3007;
 const router = require('./routes/index');
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
@@ -29,7 +29,7 @@ connection.on('ready', () => {
   app.use(express.json())
   app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
   app.use(router)
-  app.listen(3000, () => {
-		console.log(`LISTENING ON: 3000`)
+  app.listen(port, () => {
+		console.log(`LISTENING ON: ${port}`)
 	})
 })
