@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 // const Double = require('@mongoosejs/double')
 const UserSchema = new mongoose.Schema({
-  username: {
+  email: {
         type: String,
-        required: [true, 'Name must be filled']
+        required: [true, 'Email must be filled']
   },
   password: {
         type: String,

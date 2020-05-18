@@ -7,7 +7,7 @@ class UserCtrl {
 
     static async registerStudent(req, res) {
         let inputData = {
-            username: req.body.username,
+            email: req.body.email,
             password: encrypt(req.body.password),
             role: req.body.role
         };
@@ -30,7 +30,7 @@ class UserCtrl {
 
     static async registerTeacher(req, res) {
         let inputData = {
-            username: req.body.username,
+            email: req.body.email,
             password: encrypt(req.body.password),
             role: req.body.role
         };
@@ -53,30 +53,29 @@ class UserCtrl {
 
 
     static async loginStudent(req, res) {
-        let inputedData = { 
-            email: req.body.email,
-            password: req.body.password, 
-            role: req.body.role 
-        };
+        console.log('masuk login student');
 
         try {
-            await User.findOne(inputedData).then((foundUser) => {
-                const payload = {
-                    id: foundUser.ObjId,
-                    email: foundUser.email,
-                    password: foundUser.password,
-                    role: foundUser.role
-                }
+            await User.findOne({ email: req.body.email, role: 'student' }).then((foundUser) => {
+                console.log(foundUser);
 
-                const token = generateToken(payload);
+                let verify = decrypt(req.body.password, foundUser.password);
+
                 if (foundUser) {
-                    let verify = decrypt(password, foundUser.password);
                     if (verify) {
+                        const payload = {
+                            id: foundUser.ObjId,
+                            email: foundUser.email,
+                            password: foundUser.password,
+                            role: foundUser.role
+                        }
+
+                        const token = generateToken(payload);
+
                         return res.status(200).json({
                             token,
                             id: foundUser.ObjId,
                             email: foundUser.email,
-                            password: foundUser.password,
                             role: foundUser.role
                         })
                     } else {
@@ -84,6 +83,10 @@ class UserCtrl {
                             message: 'Invalid input'
                         })
                     }
+                } else {
+                    return res.status(404).json({
+                        message: 'User not found'
+                    })
                 }
             })
         } catch (err) {
@@ -95,30 +98,29 @@ class UserCtrl {
 
 
     static async loginTeacher(req, res) {
-        let inputedData = { 
-            email: req.body.email,
-            password: req.body.password, 
-            role: req.body.role 
-        };
+        console.log('masuk login teacher');
 
         try {
-            await User.findOne(inputedData).then((foundUser) => {
-                const payload = {
-                    id: foundUser.ObjId,
-                    email: foundUser.email,
-                    password: foundUser.password,
-                    role: foundUser.role
-                }
+            await User.findOne({ email: req.body.email, role: 'teacher' }).then((foundUser) => {
+                console.log(foundUser);
 
-                const token = generateToken(payload);
+                let verify = decrypt(req.body.password, foundUser.password);
+
                 if (foundUser) {
-                    let verify = decrypt(password, foundUser.password);
                     if (verify) {
+                        const payload = {
+                            id: foundUser.ObjId,
+                            email: foundUser.email,
+                            password: foundUser.password,
+                            role: foundUser.role
+                        }
+
+                        const token = generateToken(payload);
+
                         return res.status(200).json({
                             token,
                             id: foundUser.ObjId,
                             email: foundUser.email,
-                            password: foundUser.password,
                             role: foundUser.role
                         })
                     } else {
@@ -126,6 +128,10 @@ class UserCtrl {
                             message: 'Invalid input'
                         })
                     }
+                } else {
+                    return res.status(404).json({
+                        message: 'User not found'
+                    })
                 }
             })
         } catch (err) {
@@ -184,10 +190,7 @@ class UserCtrl {
         };
 
         try {
-            // await User.updateOne({
-            //     _id: req.params.userid
-            //   }, updData)
-            console.log("THIS IS ID 2 UPDATE");
+            
             console.log(req.params.userid);
             await User.findOneAndUpdate(
                 {

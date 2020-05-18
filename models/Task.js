@@ -26,6 +26,10 @@ const taskSchema = new mongoose.Schema({
     description: {
         type: String,
         required: [true, 'Description must be filled']
+    },
+    taskName: {
+        type: String,
+        required: [true, 'Task Name must be filled']
     }
 })
 
