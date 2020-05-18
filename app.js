@@ -10,7 +10,8 @@ const router = require('./routes/index');
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
 // const {url} = require('./config/database.config')
-const url = "mongodb://localhost:27017/"
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017/"
+// const url = "mongodb://heroku_mpx3kbqd:ikuqj6ppfec0t1plc2eok78veq@ds163044.mlab.com:63044/heroku_mpx3kbqd"
 
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
