@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const app = express();
 const morgan = require('morgan')
-const port = 3007;
+const port = process.env.PORT || 3007;
 const router = require('./routes/index');
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
