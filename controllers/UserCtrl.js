@@ -14,9 +14,8 @@ class UserCtrl {
 
         try {
             await User.create(inputData).then((response) => {
-                console.log("SUCCESS ADD");
                 res.status(201).json({
-                    message: "NEW MOVIE ADDED",
+                    message: "Student has been sign up successfully",
                     result: response,
                 });
             });
@@ -39,7 +38,7 @@ class UserCtrl {
             await User.create(inputData).then((response) => {
                 console.log("SUCCESS ADD");
                 res.status(201).json({
-                    message: "NEW MOVIE ADDED",
+                    message: "Teacher has been sign up successfully",
                     result: response,
                 });
             });
@@ -146,7 +145,7 @@ class UserCtrl {
         try {
             data = await User.find();
             return res.status(200).json({
-                message: "FETCH ALL SUCCESS",
+                message: "FETCH ALL USER SUCCESS",
                 result: data,
             });
         } catch (err) {

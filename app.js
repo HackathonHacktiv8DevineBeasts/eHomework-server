@@ -5,13 +5,12 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const app = express();
 const morgan = require('morgan')
-// const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3001;
 const router = require('./routes/index');
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
-// const {url} = require('./config/database.config')
-const url = "mongodb://localhost:27017/"
-
+const { url } = require('./config/database.config')
+// const url = "mongodb://localhost:27017/"
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
