@@ -1,12 +1,13 @@
-const User = require("../models/User.js");
+const User = require("../models/User");
+const { generateToken } = require('../helpers/jwt');
+const { decrypt, encrypt } = require('../helpers/bcrypt');
 var data;
 class UserCtrl {
-
 
     static async register(req, res) {
         let inputData = {
             username: req.body.username,
-            password: req.body.password,
+            password: encrypt(req.body.password),
             role: req.body.role
         };
 
@@ -28,7 +29,41 @@ class UserCtrl {
 
 
     static async login(req, res) {
-        
+        let inputedData = { 
+            email: req.body.email,
+            password: req.body.password, 
+            role: req.body.role 
+        };
+
+        try {
+            await User.findOne(inputedData).then((foundUser) => {
+                const payload = {
+                    id: foundUser.ObjId,
+                    email: foundUser.email,
+                    password: foundUser.password,
+                    role: foundUser.role
+                }
+
+                const token = generateToken(payload);
+                if (foundUser) {
+                    let verify = decrypt(password, foundUser.password);
+                    if (verify) {
+                        return res.status(200).json({
+                            token
+                        })
+                    } else {
+                        return next({
+                            status: 400,
+                            message: 'Invalid input'
+                        })
+                    }
+                }
+            })
+        } catch (err) {
+            return res.status(err.status).json({
+                message: err.message,
+            });
+        }
     }
 
 
