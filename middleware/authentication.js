@@ -16,7 +16,7 @@ async function authentication(req, res, next) {
             });
         console.log("THIS IS RETRIEVED DATA");
         console.log(data);
-        if(String(data._id) === String(payload._id)) {
+        if(String(data._id) == String(payload._id)) {
             console.log("AUTHENTICATION SUCCESS");
             req.decoded = payload
             next()

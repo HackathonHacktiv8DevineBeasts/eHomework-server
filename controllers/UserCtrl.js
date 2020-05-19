@@ -66,8 +66,8 @@ class UserCtrl {
                     if (verify) {
                         const payload = {
                             id: foundUser.ObjId,
+                            _id: foundUser._id,
                             email: foundUser.email,
-                            password: foundUser.password,
                             role: foundUser.role
                         }
 
@@ -75,7 +75,7 @@ class UserCtrl {
 
                         return res.status(200).json({
                             token,
-                            id: foundUser.ObjId,
+                            id: foundUser._id,
                             email: foundUser.email,
                             role: foundUser.role
                         })
