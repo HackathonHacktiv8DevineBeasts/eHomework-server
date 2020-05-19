@@ -64,6 +64,7 @@ class TaskController {
                         emailTeacher: data.emailTeacher,
                         score: data.score,
                         url: data.url,
+                        viewURL: data.viewURL,
                         status: data.status,
                         description: data.description,
                         taskName: data.taskName
@@ -79,8 +80,8 @@ class TaskController {
     }
 
     static async inputTask (req, res) {
-        const { emailStudent, emailTeacher, score, url, status, description, taskName } = req.body;
-        const inputedData = { emailStudent, emailTeacher, score, url, status, description, taskName };
+        const { emailStudent, emailTeacher, score, url, viewURL, status, description, taskName } = req.body;
+        const inputedData = { emailStudent, emailTeacher, score, url, viewURL, status, description, taskName };
 
         try {
             let mainData1 = await User.find({ role: 'student'});
@@ -102,8 +103,8 @@ class TaskController {
     static async updateTask (req, res) {
         id = ObjectId(req.params.id);
         console.log('masuk sini ga edit: ',id);
-        const { emailStudent, emailTeacher, score, url, status, description, taskName } = req.body;
-        const inputedData = { emailStudent, emailTeacher, score, url, status, description, taskName };
+        const { emailStudent, emailTeacher, score, url, viewURL, status, description, taskName } = req.body;
+        const inputedData = { emailStudent, emailTeacher, score, url, viewURL, status, description, taskName };
 
         try {
             await Task.findOneAndUpdate({_id : id}, inputedData, { new: true }).then((response) => {

@@ -19,6 +19,10 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Url must be filled']
     },
+    viewURL: {
+        type: String,
+        required: [true, 'View URL must be filled']
+    },
     status: {
         type: Boolean,
         required: [true]
