@@ -1,6 +1,7 @@
 const {verifyToken} = require('../helpers/jwt')
 const User = require('../models/User')
 // const {customError} = require("../helpers/customError.js")
+const ObjectId = require('mongodb').ObjectID;
 
 async function authorization(req, res, next) {
     // console.log(">>> AUTHENTICATION");
@@ -12,7 +13,7 @@ async function authorization(req, res, next) {
     try {
 
         data = await User.findOne({
-                _id: payload._id,
+                _id: ObjectId(payload._id),
             });
         console.log("THIS IS RETRIEVED DATA");
         console.log(data);

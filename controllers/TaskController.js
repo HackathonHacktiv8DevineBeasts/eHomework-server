@@ -60,6 +60,7 @@ class TaskController {
                 console.log(data);
                 if(data) {
                         return res.status(200).json({
+                        _id: data._id,
                         emailStudent: data.emailStudent,
                         emailTeacher: data.emailTeacher,
                         score: data.score,
@@ -117,21 +118,56 @@ class TaskController {
         }
     }
 
-    static async deleteTask (req, res) {
+    static async deleteTaskById (req, res) {
+
         id = ObjectId(req.params.id);
-        console.log('masuk delete');
+        console.log('masuk delete', id);
 
         try {
-            await Task.findOneAndDelete({_id : id}, { rowResult: true }).then((response) => {
-                res.status(200).json({
-                    message: 'successfully delete task'
+            
+            // await Task.findOneAndDelete({_id : id}, { rowResult: true }).then((response) => {
+            //     res.status(200).json({
+            //         message: 'successfully delete task'
+            //     })
+            // })
+
+            data = await Task.findOneAndDelete({_id : id}, { rawResult: true })
+
+            if(data) {
+                return res.status(200).json({
+                    message: 'successfully delete task',
+                    result: data
                 })
-            })
+            } 
+
         } catch (err) {
             return res.status(403).json({
                 message: 'Forbidden delete task'
             })
         }
+    }
+
+
+    static async deleteTaskByName (req, res) {
+
+       console.log("DELETE BY NAME, USE REQ.QUERY");
+       console.log(req.query);
+       var name = req.query.name
+
+       try {
+        //    data = await Task.deleteMany({taskName: {$in:[`/${name}/`] }})
+            data = await Task.deleteMany({taskName: name})
+           if(data) {
+               res.status(200).json({
+                   message: `TASK ${name} DROPPED FROM DB`,
+                   result: data
+               })
+           }
+       }
+       catch(err) {
+           console.error(err)
+       }
+
     }
 }
 
