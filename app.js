@@ -9,8 +9,9 @@ const morgan = require('morgan')
 const router = require('./routes/index');
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
-const { url } = require('./config/database.config')
-// const url = "mongodb://localhost:27017/"
+const cors = require(cors());
+// const { url } = require('./config/database.config')
+const url = "mongodb://localhost:27017/"
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -24,6 +25,7 @@ connection.once('open', () => {
 })
 
 connection.on('ready', () => {
+  app.use(cors())
   app.use(express.urlencoded({extended: false}))
   app.use(express.json())
   app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))

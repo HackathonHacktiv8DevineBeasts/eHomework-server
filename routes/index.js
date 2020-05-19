@@ -3,11 +3,11 @@ const { loginStudent, loginTeacher, registerStudent, registerTeacher, findAll } 
 // const {findUser} = require('../middleware/findUser');
 const task = require('./task');
 
-router.get('/', findAll)
 router.post('/register/student', registerStudent)
 router.post('/register/teacher', registerTeacher)
 router.post('/login/student', loginStudent)
 router.post('/login/teacher', loginTeacher)
+router.get('/', findAll)
 router.use(task);
 // router.get('/:userid', findOne)
 // router.put('/:userid', findUser, update)

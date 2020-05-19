@@ -60,6 +60,8 @@ class UserCtrl {
 
                 let verify = decrypt(req.body.password, foundUser.password);
 
+                console.log(verify);
+
                 if (foundUser) {
                     if (verify) {
                         const payload = {

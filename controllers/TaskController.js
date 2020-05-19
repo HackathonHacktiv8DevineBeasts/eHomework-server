@@ -1,5 +1,7 @@
 const Task = require('../models/Task');
 const User = require('../models/User');
+// const Redis = require('ioredis');
+// const redis = new Redis();
 
 class TaskController {
 
@@ -7,9 +9,11 @@ class TaskController {
         console.log('masuk sini ga');
         let data;
         try {
-            data = await Task.find();
+            data = await Task.find()
             console.log('ini data');
             console.log(data);
+            // redis.set('task', JSON.stringify(data));
+            // redis.expire('task', 20);
             return res.status(200).json({
                     message: 'Fetch data success',
                     result: data
