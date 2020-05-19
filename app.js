@@ -9,7 +9,7 @@ const morgan = require('morgan')
 const router = require('./routes/index');
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
-const cors = require(cors());
+const cors = require('cors');
 // const { url } = require('./config/database.config')
 const url = "mongodb://localhost:27017/"
 
