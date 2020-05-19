@@ -1,19 +1,16 @@
 const Task = require('../models/Task');
 const User = require('../models/User');
-// const Redis = require('ioredis');
-// const redis = new Redis();
-
+const ObjectId = require('mongodb').ObjectID;
+var data
+var id
 class TaskController {
 
     static async getTask (req, res) {
         console.log('masuk sini ga');
-        let data;
         try {
-            data = await Task.find()
+            data = await Task.find();
             console.log('ini data');
             console.log(data);
-            // redis.set('task', JSON.stringify(data));
-            // redis.expire('task', 20);
             return res.status(200).json({
                     message: 'Fetch data success',
                     result: data
@@ -28,7 +25,7 @@ class TaskController {
     static async getTaskByEmail (req, res) {
         let email = req.params.email;
         try {
-            let data = await Task.find({ emailStudent: email });
+            data = await Task.find({ emailStudent: email });
             return res.status(200).json({
                 message: 'Fetch data success',
                 result: data
@@ -41,19 +38,39 @@ class TaskController {
     }
 
     static async getTaskById (req, res) {
-        let id = req.params.id;
+        
         try {
-            await Task.findById(id).then((response) => {
-                res.status(200).json({
-                    emailStudent: response.emailStudent,
-                    emailTeacher: response.emailTeacher,
-                    score: response.score,
-                    url: response.url,
-                    status: response.status,
-                    description: response.description,
-                    taskName: response.taskName
-                })
-            })
+            // await Task.findById(id).then((response) => {
+            //     res.status(200).json({
+            //         emailStudent: response.emailStudent,
+            //         emailTeacher: response.emailTeacher,
+            //         score: response.score,
+            //         url: response.url,
+            //         status: response.status,
+            //         description: response.description,
+            //         taskName: response.taskName
+            //     })
+            // })
+
+            id = ObjectId(req.params.id);
+            console.log("THIS IS TASK ID TO FIND", id);
+
+            data = await Task.findOne({_id: id})
+                console.log("SANITY CHECK IN FINDBYID");
+                console.log(data);
+                if(data) {
+                        return res.status(200).json({
+                        emailStudent: data.emailStudent,
+                        emailTeacher: data.emailTeacher,
+                        score: data.score,
+                        url: data.url,
+                        status: data.status,
+                        description: data.description,
+                        taskName: data.taskName
+                    })
+                }
+                
+            
         } catch (err) {
             return res.status(404).json({
                 message: 'Error fetching task'
@@ -83,7 +100,7 @@ class TaskController {
     }
 
     static async updateTask (req, res) {
-        let id = req.params.id;
+        id = ObjectId(req.params.id);
         console.log('masuk sini ga edit: ',id);
         const { emailStudent, emailTeacher, score, url, status, description, taskName } = req.body;
         const inputedData = { emailStudent, emailTeacher, score, url, status, description, taskName };
@@ -100,7 +117,7 @@ class TaskController {
     }
 
     static async deleteTask (req, res) {
-        let id = req.params.id;
+        id = ObjectId(req.params.id);
         console.log('masuk delete');
 
         try {
